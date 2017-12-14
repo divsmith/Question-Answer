@@ -4,6 +4,10 @@ namespace Tests\Functional;
 
 class ProfilepageTest extends BaseTestCase
 {
+    public function testTrue()
+    {
+        $this->assertTrue(true);
+    }
 //    public function testGetProfilepageNotAllowed()
 //    {
 //        $response = $this->runApp('GET', '/profile');
