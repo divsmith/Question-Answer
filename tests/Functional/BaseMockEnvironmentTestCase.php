@@ -17,39 +17,10 @@ class BaseMockEnvironmentTestCase
      * @var bool
      */
     protected $withMiddleware = true;
-    protected $request;
-    protected $response;
     protected $app;
 
-    /**
-     * Process the application given a request method and URI
-     *
-     * @param string $requestMethod the request method (e.g. GET, POST, etc.)
-     * @param string $requestUri the request URI
-     * @param array|object|null $requestData the request data
-     * @return \Slim\Http\Response
-     */
-
-
-    public function setupApp($requestMethod, $requestUri, $requestData = null)
+    public function setupApp()
     {
-        // Create a mock environment for testing with
-        $environment = Environment::mock([
-            'REQUEST_METHOD' => $requestMethod,
-            'REQUEST_URI' => $requestUri
-        ]);
-
-        // Set up a request object based on the environment
-        $this->request = Request::createFromEnvironment($environment);
-
-        // Add request data, if it exists
-        if (isset($requestData)) {
-            $request = $this->request->withParsedBody($requestData);
-        }
-
-        // Set up a response object
-        $response = new Response();
-
         // Use the application settings
         $settings = require __DIR__ . '/../../src/settings.php';
 
@@ -68,12 +39,37 @@ class BaseMockEnvironmentTestCase
         require __DIR__ . '/../../src/routes.php';
     }
 
-    public function runApp()
+    /**
+     * Process the application given a request method and URI
+     *
+     * @param string $requestMethod the request method (e.g. GET, POST, etc.)
+     * @param string $requestUri the request URI
+     * @param array|object|null $requestData the request data
+     * @return \Slim\Http\Response
+     */
+    public function runApp($requestMethod, $requestUri, $requestData = null)
     {
+        // Create a mock environment for testing with
+        $environment = Environment::mock([
+            'REQUEST_METHOD' => $requestMethod,
+            'REQUEST_URI' => $requestUri
+        ]);
+
+        // Set up a request object based on the environment
+        $request = Request::createFromEnvironment($environment);
+
+        // Add request data, if it exists
+        if (isset($requestData)) {
+            $request = $request->withParsedBody($requestData);
+        }
+
+        // Set up a response object
+        $response = new Response();
+
         // Process the application
-        $this->response = $this->app->process($this->apprequest, $this->response);
+        $response = $this->app->process($request, $response);
 
         // Return the response
-        return $this->response;
+        return $response;
     }
 }
