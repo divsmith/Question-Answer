@@ -75,3 +75,9 @@ $container[App\Actions\ProfileAction::class] = function ($c) {
 
     return new \App\Actions\ProfileAction($view, $logger, $table);
 };
+
+// custom
+$container[\App\Storage\User\EloquentUserPlugin::class] = function($c)
+{
+    return new \App\Storage\User\EloquentUserPlugin($c->get('db')->table('users'));
+};

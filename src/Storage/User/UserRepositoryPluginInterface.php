@@ -16,4 +16,6 @@ interface UserRepositoryPluginInterface
     public function getByEmail($email);
     public function store(User $user);
     public function getAll();
+    public function delete($email);
+    public function deleteAll();
 }

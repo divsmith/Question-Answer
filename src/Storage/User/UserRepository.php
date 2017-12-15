@@ -34,4 +34,14 @@ class UserRepository
     {
         return $this->plugin->getAll();
     }
+
+    public function delete($email)
+    {
+        return $this->plugin->delete($email);
+    }
+
+    public function deleteAll()
+    {
+        return $this->plugin->deleteAll();
+    }
 }

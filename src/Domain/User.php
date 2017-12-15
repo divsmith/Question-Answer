@@ -32,6 +32,11 @@ class User
         $this->upvoted = $upvoted;
     }
 
+    public function hash()
+    {
+        return $this->hash;
+    }
+
     public function getUpvoted()
     {
         return $this->upvoted;
