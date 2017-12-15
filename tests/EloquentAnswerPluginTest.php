@@ -20,8 +20,8 @@ class EloquentAnswerPluginTest extends \PHPUnit_Framework_TestCase
         // Set up dependencies
         require __DIR__ . '/../src/dependencies.php';
 
-        $this->answer1 = new \App\Domain\Answer('1234', '4321', 'answer text', 'test@testing.com');
-        $this->answer2 = new \App\Domain\Answer('asdf', 'fdsa', 'another answer text', 'test@testing.com');
+        $this->answer1 = new \App\Domain\Answer('1234', '4321', 'answer text', 'test@testing.com', 17);
+        $this->answer2 = new \App\Domain\Answer('asdf', 'fdsa', 'another answer text', 'test@testing.com', 2);
         $this->answer3 = new \App\Domain\Answer('asdfasdf', '4321', 'more answer text', 'separate@testing.com');
 
         $this->plugin = $app->getContainer()->get(\App\Storage\Answer\EloquentAnswerPlugin::class);
@@ -64,12 +64,14 @@ class EloquentAnswerPluginTest extends \PHPUnit_Framework_TestCase
     public function testUpdate()
     {
         $this->answer1->text('new text now!!!');
+        $this->answer1->upvote();
         $this->assertTrue($this->plugin->store($this->answer1));
 
         $answer = $this->plugin->getByID($this->answer1->uuid());
         $this->assertEquals($this->answer1, $answer);
 
         $this->assertEquals('new text now!!!', $answer->text());
+        $this->assertEquals(18, $answer->upvotes());
     }
 
     public function testDelete()

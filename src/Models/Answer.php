@@ -14,5 +14,5 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {
     protected $table = 'answers';
-    protected $fillable = ['uuid', 'question_uuid', 'text', 'user_email'];
+    protected $fillable = ['uuid', 'question_uuid', 'text', 'user_email', 'upvotes'];
 }

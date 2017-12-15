@@ -33,6 +33,7 @@ class AnswersMigration extends AbstractMigration
             ->addColumn('question_uuid', 'string')
             ->addColumn('text', 'string')
             ->addColumn('user_email', 'string')
+            ->addColumn('upvotes', 'integer', ['default' => 0])
             ->addColumn('created_at', 'datetime')
             ->addColumn('updated_at', 'datetime')
             ->addIndex(['uuid'], ['unique' => true])

@@ -15,8 +15,9 @@ class Answer
     private $questionID;
     private $text;
     private $userEmail;
+    private $upvotes;
 
-    public function __construct($uuid, $questionID, $text, $userEmail)
+    public function __construct($uuid, $questionID, $text, $userEmail, $upvotes = 0)
     {
         if (empty($uuid) || empty($text) || empty($userEmail) || empty($questionID)) {
             throw new \InvalidArgumentException("empty arguments");
@@ -34,6 +35,18 @@ class Answer
         $this->questionID = $questionID;
         $this->text = $text;
         $this->userEmail = $userEmail;
+        $this->upvotes = $upvotes;
+    }
+
+    public function upvote()
+    {
+        $this->upvotes++;
+        return true;
+    }
+
+    public function upvotes()
+    {
+        return $this->upvotes;
     }
 
     public function questionID()

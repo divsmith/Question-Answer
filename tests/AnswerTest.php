@@ -56,4 +56,12 @@ class AnswerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($this->questionID, $this->answer->questionID());
     }
+
+    public function testUpvote()
+    {
+        $this->assertTrue($this->answer->upvote());
+        $this->assertTrue($this->answer->upvote());
+
+        $this->assertEquals(2, $this->answer->upvotes());
+    }
 }

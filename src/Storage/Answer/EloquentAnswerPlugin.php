@@ -28,7 +28,7 @@ class EloquentAnswerPlugin implements AnswerRepositoryInterface
         if ($answer)
         {
             $answer = $answer->toArray();
-            return new Answer($answer['uuid'], $answer['question_uuid'], $answer['text'], $answer['user_email']);
+            return new Answer($answer['uuid'], $answer['question_uuid'], $answer['text'], $answer['user_email'], $answer['upvotes']);
         }
 
         return null;
@@ -46,7 +46,7 @@ class EloquentAnswerPlugin implements AnswerRepositoryInterface
             $eloquentAnswers = $eloquentAnswers->toArray();
             foreach($eloquentAnswers as $answer)
             {
-                $return[] = new Answer($answer['uuid'], $answer['question_uuid'], $answer['text'], $answer['user_email']);
+                $return[] = new Answer($answer['uuid'], $answer['question_uuid'], $answer['text'], $answer['user_email'], $answer['upvotes']);
             }
         }
 
@@ -62,11 +62,14 @@ class EloquentAnswerPlugin implements AnswerRepositoryInterface
             $eloquentAnswer = new \App\Models\Answer(['uuid' => $answer->uuid(),
                 'question_uuid' => $answer->questionID(),
                 'text' => $answer->text(),
-                'user_email' => $answer->userEmail()]);
+                'user_email' => $answer->userEmail(),
+                'upvotes' => $answer->upvotes()
+            ]);
         }
         else
         {
             $eloquentAnswer->text = $answer->text();
+            $eloquentAnswer->upvotes = $answer->upvotes();
         }
 
         return $eloquentAnswer->save();
