@@ -12,13 +12,13 @@ class EloquentUserPluginTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Use the application settings
-        $settings = require __DIR__ . '/../src/settings.php';
+        $settings = require __DIR__ . '/../../../src/settings.php';
 
         // Instantiate the application
         $app = new App($settings);
 
         // Set up dependencies
-        require __DIR__ . '/../src/dependencies.php';
+        require __DIR__ . '/../../../src/dependencies.php';
 
         $this->user1 = new \App\Domain\User("anne@example.com", "Anne Example", password_hash('user1 password', PASSWORD_DEFAULT), ['1', '4', '7']);
         $this->user2 = new \App\Domain\User("bill@example.com", "Bill Example", password_hash('user2 password', PASSWORD_DEFAULT), ['3', '7', '9']);

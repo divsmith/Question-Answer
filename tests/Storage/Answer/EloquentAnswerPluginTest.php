@@ -12,13 +12,13 @@ class EloquentAnswerPluginTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Use the application settings
-        $settings = require __DIR__ . '/../src/settings.php';
+        $settings = require __DIR__ . '/../../../src/settings.php';
 
         // Instantiate the application
         $app = new App($settings);
 
         // Set up dependencies
-        require __DIR__ . '/../src/dependencies.php';
+        require __DIR__ . '/../../../src/dependencies.php';
 
         $this->answer1 = new \App\Domain\Answer('1234', '4321', 'answer text', 'test@testing.com', 17);
         $this->answer2 = new \App\Domain\Answer('asdf', 'fdsa', 'another answer text', 'test@testing.com', 2);

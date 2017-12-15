@@ -12,13 +12,13 @@ class EloquentQuestionPluginTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Use the application settings
-        $settings = require __DIR__ . '/../src/settings.php';
+        $settings = require __DIR__ . '/../../../src/settings.php';
 
         // Instantiate the application
         $app = new App($settings);
 
         // Set up dependencies
-        require __DIR__ . '/../src/dependencies.php';
+        require __DIR__ . '/../../../src/dependencies.php';
 
         $this->question1 = new \App\Domain\Question('asdf1234', 'This is first question', 'first question text', 'test@test.com');
         $this->question2 = new \App\Domain\Question('fdsa3242', 'This is my second question', 'second question text', 'test@test.com');
