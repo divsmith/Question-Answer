@@ -9,7 +9,7 @@
 namespace App\Storage\Session;
 
 
-interface SessionRepositoryInterface
+interface SessionRepositoryPluginInterface
 {
     public function has($key);
     public function get($key);
