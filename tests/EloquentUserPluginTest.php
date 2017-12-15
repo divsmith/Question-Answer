@@ -69,6 +69,15 @@ class EloquentUserPluginTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([$this->user2, $this->user3], $this->plugin->getAll());
     }
 
+    public function testUpdate()
+    {
+        $this->user3->upvote('test1234');
+        $this->assertTrue($this->plugin->store($this->user3));
+
+        $user = $this->plugin->getByEmail($this->user3->email());
+        $this->assertTrue($user->upvoted('test1234'));
+    }
+
     public function testDeleteDoesNotExist()
     {
         $this->assertNull($this->plugin->delete('doesnotexist@test.com'));
