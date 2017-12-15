@@ -41,6 +41,12 @@ class AnswerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->text, $this->answer->text());
     }
 
+    public function testUpdateText()
+    {
+        $this->assertTrue($this->answer->text('new text now'));
+        $this->assertEquals('new text now', $this->answer->text());
+    }
+
     public function testUserEmail()
     {
         $this->assertEquals($this->userEmail, $this->answer->userEmail());

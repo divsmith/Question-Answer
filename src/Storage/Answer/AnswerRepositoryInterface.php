@@ -16,4 +16,6 @@ interface AnswerRepositoryInterface
     public function getByID($uuid);
     public function getByQuestionID($uuid);
     public function store(Answer $answer);
+    public function delete($uuid);
+    public function deleteAll();
 }

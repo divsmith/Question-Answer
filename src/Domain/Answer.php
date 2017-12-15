@@ -46,9 +46,15 @@ class Answer
         return $this->uuid;
     }
 
-    public function text()
+    public function text($text = null)
     {
-        return $this->text;
+        if ($text == null)
+        {
+            return $this->text;
+        }
+
+        $this->text = $text;
+        return true;
     }
 
     public function userEmail()
