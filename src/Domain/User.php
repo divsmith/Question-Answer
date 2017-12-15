@@ -7,8 +7,8 @@ namespace App\Domain;
 
 class User
 {
-    public $email;
-    public $name;
+    private $email;
+    private $name;
 
     public function __construct($email, $name)
     {
@@ -26,5 +26,15 @@ class User
 
         $this->email = $email;
         $this->name = $name;
+    }
+
+    public function email()
+    {
+        return $this->email;
+    }
+
+    public function name()
+    {
+        return $this->name;
     }
 }

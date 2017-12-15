@@ -60,4 +60,14 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($email, $user->email());
     }
+
+    public function testGetName()
+    {
+        $email = 'anne@example.com';
+        $name = 'Anne Able';
+
+        $user = new \App\Domain\User($email, $name);
+
+        $this->assertEquals($name, $user->name());
+    }
 }
