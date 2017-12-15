@@ -96,4 +96,28 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($user->password_verify('testing'));
     }
+
+    public function testUpvotedFalse()
+    {
+        $email = "anne@example.com";
+        $name = "Anne Able";
+        $password = password_hash('testing', PASSWORD_DEFAULT);
+        $upvoted = ['asdf1234', '431324asdfasdf', '1234'];
+
+        $user = new \App\Domain\User($email, $name, $password, $upvoted);
+
+        $this->assertFalse($user->upvoted("12345"));
+    }
+
+    public function testUpvotedTrue()
+    {
+        $email = "anne@example.com";
+        $name = "Anne Able";
+        $password = password_hash('testing', PASSWORD_DEFAULT);
+        $upvoted = ['asdf1234', '431324asdfasdf', '1234'];
+
+        $user = new \App\Domain\User($email, $name, $password, $upvoted);
+
+        $this->assertTrue($user->upvoted("asdf1234"));
+    }
 }

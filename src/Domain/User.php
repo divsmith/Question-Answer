@@ -10,8 +10,9 @@ class User
     private $email;
     private $name;
     private $hash;
+    private $upvoted;
 
-    public function __construct($email, $name, $hash)
+    public function __construct($email, $name, $hash, $upvoted = [])
     {
         if (empty($email) || empty($name) || empty($hash)) {
             throw new \InvalidArgumentException("empty arguments");
@@ -28,6 +29,12 @@ class User
         $this->email = $email;
         $this->name = $name;
         $this->hash = $hash;
+        $this->upvoted = $upvoted;
+    }
+
+    public function upvoted($uuid)
+    {
+        return in_array($uuid, $this->upvoted);
     }
 
     public function email()
