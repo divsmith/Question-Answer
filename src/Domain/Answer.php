@@ -12,16 +12,17 @@ namespace App\Domain;
 class Answer
 {
     private $uuid;
+    private $questionID;
     private $text;
     private $userEmail;
 
-    public function __construct($uuid, $text, $userEmail)
+    public function __construct($uuid, $questionID, $text, $userEmail)
     {
-        if (empty($uuid) || empty($text) || empty($userEmail)) {
+        if (empty($uuid) || empty($text) || empty($userEmail) || empty($questionID)) {
             throw new \InvalidArgumentException("empty arguments");
         }
 
-        if (!is_string($uuid) || !is_string($text) || !is_string($userEmail)) {
+        if (!is_string($uuid) || !is_string($text) || !is_string($userEmail) || !is_string($questionID)) {
             throw new \InvalidArgumentException("arguments are not strings");
         }
 
@@ -30,8 +31,14 @@ class Answer
         }
 
         $this->uuid = $uuid;
+        $this->questionID = $questionID;
         $this->text = $text;
         $this->userEmail = $userEmail;
+    }
+
+    public function questionID()
+    {
+        return $this->questionID;
     }
 
     public function uuid()
