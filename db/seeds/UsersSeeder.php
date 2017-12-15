@@ -33,26 +33,23 @@ class UsersSeeder extends AbstractSeed
         $users->insert($data)->save();
 */
         $data[] = [
-            'user_id'    => '000',
             'name'       => 'Anne Anderson',
             'email'      => 'anne@example.com',
-            'password'   => '1234pass',
+            'password'   => password_hash('1234pass', PASSWORD_DEFAULT),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ];
         $data[] = [
-            'user_id'    => '001',
             'name'       => 'Ben Bennett',
             'email'      => 'ben@example.com',
-            'password'   => '1234pass',
+            'password'   => password_hash('1234pass', PASSWORD_DEFAULT),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ];
         $data[] = [
-            'user_id'    => '002',
             'name'       => 'Chris Christensen',
             'email'      => 'chris@example.com',
-            'password'   => '1234pass',
+            'password'   => password_hash('1234pass', PASSWORD_DEFAULT),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ];

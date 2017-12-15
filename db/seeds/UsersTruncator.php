@@ -13,9 +13,9 @@ class UsersTruncator extends AbstractSeed
      * More information on writing seeders is available here:
      * http://docs.phinx.org/en/latest/seeding.html
      */
-    public function run()
-    {
-        $users = $this->table('users');
-        $users->truncate();
-    }
+//    public function run()
+//    {
+//        $users = $this->table('users');
+//        $users->truncate();
+//    }
 }

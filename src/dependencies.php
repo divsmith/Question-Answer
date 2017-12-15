@@ -54,7 +54,7 @@ $container['errorHandler'] = function ($c) {
 };
 
 $container['phpErrorHandler'] = function ($c) {
-    return function ($request, $response, $error) use ($c) {
+    return function ($request, $response, $exception) use ($c) {
         $c->get('logger')->error($exception->getMessage());
         $response->getBody()->rewind();
         return $response->withStatus(500)
@@ -71,9 +71,10 @@ $container[App\Actions\HomeAction::class] = function ($c) {
 $container[App\Actions\ProfileAction::class] = function ($c) {
     $view = $c->get('view');
     $logger = $c->get('logger');
-    $table = $c->get('db')->table('users');
+    $users = $c->get(\App\Storage\User\UserRepository::class);
+    $session = $c->get(\App\Storage\Session\SessionRepository::class);
 
-    return new \App\Actions\ProfileAction($view, $logger, $table);
+    return new \App\Actions\ProfileAction($view, $logger, $users, $session);
 };
 
 
