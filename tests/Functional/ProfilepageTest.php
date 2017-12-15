@@ -2,12 +2,48 @@
 
 namespace Tests\Functional;
 
+use App\Domain\Answer;
+use App\Domain\Question;
+use App\Storage\Question\MemoryQuestionPlugin;
+use App\Storage\User\MemoryUserPlugin;
+
 class ProfilepageTest extends BaseMockEnvironmentTestCase
 {
     public function setUp()
     {
         $this->setupApp();
         $container = $this->app->getContainer();
+
+        // Plugin Interfaces
+        $container[\App\Storage\User\UserRepositoryPluginInterface::class] = function($c)
+        {
+            $user1 = new User('anne@example.com', 'Anne Anderson', password_hash('1234pass', PASSWORD_DEFAULT), [1]);
+            $user2 = new User('ben@example.com', 'Ben Bennett', password_hash('1234pass', PASSWORD_DEFAULT));
+            $user3 = new User('chris@example.com', 'Chris Christensen', password_hash('1234pass', PASSWORD_DEFAULT));
+
+            return new MemoryUserPlugin([$user1, $user2, $user3]);
+        };
+
+        $container[\App\Storage\Question\QuestionRepositoryInterface::class] = function($c)
+        {
+            $question1 = new Question('1', 'Question about Eloquent', 'I have a quesiton about how to use eloquent', 'anne@example.com');
+            $question2 = new Question('2', 'another Question about Eloquent', 'I have a another quesiton about how to use eloquent', 'anne@example.com');
+            $question3 = new Question('3', 'Question about Phinx', 'I have a quesiton about how to use Phinx', 'ben@example.com');
+
+            return new MemoryQuestionPlugin([$question1, $question2, $question3]);
+        };
+
+        $container[\App\Storage\Answer\AnswerRepositoryInterface::class] = function($c)
+        {
+            $answer1 = new Answer(1, 1, 'You use eloquent like this...', 'christ@example.com', 1);
+            $answer2 = new Answer(2, 1, 'You can also use eloquent like this...', 'ben@example.com');
+            $answer3 = new Answer(3, 3, 'You use phinx like this...', 'anne@example.com');
+        };
+
+        $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+        {
+            return new \App\Storage\Session\PHPSessionPlugin();
+        };
     }
 
     public function testGetProfilepageNotAllowed()
