@@ -29,13 +29,12 @@ class Users extends AbstractMigration
     public function change()
     {
         $table = $this->table('users');
-        $table->addColumn('user_id', 'integer')
-            ->addColumn('name' ,'string')
+        $table->addColumn('name' ,'string')
             ->addColumn('email', 'string')
             ->addColumn('password', 'string')
             ->addColumn('created_at', 'datetime')
             ->addColumn('updated_at', 'datetime')
-            ->addIndex(['id'])
+            ->addIndex(['email'], ['unique' => true])
             ->create();
     }
 }
