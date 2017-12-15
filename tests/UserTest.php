@@ -9,7 +9,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $expected = "empty arguments";
         // act
         try {
-            new \App\Domain\User("","");
+            new \App\Domain\User("","", "");
         } catch(\Exception $e) {
             $actual = $e->getMessage();
             $this->assertEquals(\InvalidArgumentException::class, get_class($e));
@@ -25,7 +25,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $expected = "arguments are not strings";
         // act
         try {
-            new \App\Domain\User(1,1);
+            new \App\Domain\User(1,1, 1);
         } catch(\Exception $e) {
             $actual = $e->getMessage();
             $this->assertEquals(\InvalidArgumentException::class, get_class($e));
@@ -39,9 +39,11 @@ class UserTest extends \PHPUnit_Framework_TestCase
         // arrange
         $actual = null;
         $expected = "email is not valid";
+        $password = password_hash('testing', PASSWORD_DEFAULT);
+
         // act
         try {
-            new \App\Domain\User("anne@example","Anne Able");
+            new \App\Domain\User("anne@example","Anne Able", $password);
         } catch(\Exception $e) {
             $actual = $e->getMessage();
             $this->assertEquals(\InvalidArgumentException::class, get_class($e));
@@ -55,8 +57,9 @@ class UserTest extends \PHPUnit_Framework_TestCase
         // arrange
         $email = 'anne@example.com';
         $name = 'Anne Able';
+        $password = password_hash('testing', PASSWORD_DEFAULT);
 
-        $user = new \App\Domain\User($email, $name);
+        $user = new \App\Domain\User($email, $name, $password);
 
         $this->assertEquals($email, $user->email());
     }
@@ -65,9 +68,32 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $email = 'anne@example.com';
         $name = 'Anne Able';
+        $password = password_hash('testing', PASSWORD_DEFAULT);
 
-        $user = new \App\Domain\User($email, $name);
+        $user = new \App\Domain\User($email, $name, $password);
 
         $this->assertEquals($name, $user->name());
+    }
+
+    public function testVerifyPasswordInvalidPassword()
+    {
+        $email = 'anne@example.com';
+        $name = 'Anne Able';
+        $password = password_hash('testing', PASSWORD_DEFAULT);
+
+        $user = new \App\Domain\User($email, $name, $password);
+
+        $this->assertFalse($user->password_verify('Invalid Password'));
+    }
+
+    public function testVerifyPasswordValidPassword()
+    {
+        $email = 'anne@example.com';
+        $name = 'Anne Able';
+        $password = password_hash('testing', PASSWORD_DEFAULT);
+
+        $user = new \App\Domain\User($email, $name, $password);
+
+        $this->assertTrue($user->password_verify('testing'));
     }
 }

@@ -9,14 +9,15 @@ class User
 {
     private $email;
     private $name;
+    private $hash;
 
-    public function __construct($email, $name)
+    public function __construct($email, $name, $hash)
     {
-        if (empty($email) || empty($name)) {
+        if (empty($email) || empty($name) || empty($hash)) {
             throw new \InvalidArgumentException("empty arguments");
         }
 
-        if (!is_string($email) || !is_string($name)) {
+        if (!is_string($email) || !is_string($name) || !is_string($hash)) {
             throw new \InvalidArgumentException("arguments are not strings");
         }
 
@@ -26,6 +27,7 @@ class User
 
         $this->email = $email;
         $this->name = $name;
+        $this->hash = $hash;
     }
 
     public function email()
@@ -36,5 +38,10 @@ class User
     public function name()
     {
         return $this->name;
+    }
+
+    public function password_verify($password)
+    {
+        return password_verify($password, $this->hash);
     }
 }
