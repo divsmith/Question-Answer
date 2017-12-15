@@ -32,6 +32,11 @@ class User
         $this->upvoted = $upvoted;
     }
 
+    public function getUpvoted()
+    {
+        return $this->upvoted;
+    }
+
     public function upvoted($uuid)
     {
         return in_array($uuid, $this->upvoted);
