@@ -3,31 +3,24 @@
  * Created by PhpStorm.
  * User: parker
  * Date: 12/15/17
- * Time: 2:53 PM
+ * Time: 3:00 PM
  */
 
 namespace App\Storage\Session;
 
 
-class MemorySessionPlugin implements SessionRepositoryPluginInterface
+class PHPSessionPlugin implements SessionRepositoryPluginInterface
 {
-    private $values = [];
-
-    public function __construct($values = [])
-    {
-        $this->values = $values;
-    }
-
     public function has($key)
     {
-        return isset($this->values[$key]);
+        return isset($_SESSION[$key]);
     }
 
     public function get($key)
     {
         if ($this->has($key))
         {
-            return $this->values[$key];
+            return $_SESSION[$key];
         }
 
         return null;
@@ -35,7 +28,7 @@ class MemorySessionPlugin implements SessionRepositoryPluginInterface
 
     public function put($key, $value)
     {
-        $this->values[$key] = $value;
+        $_SESSION[$key] = $value;
         return true;
     }
 }
