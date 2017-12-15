@@ -15,6 +15,11 @@ class MemoryAnswerPlugin implements AnswerRepositoryInterface
 {
     private $answers = [];
 
+    public function __construct($answers = [])
+    {
+        $this->answers = $answers;
+    }
+
     public function getByID($uuid)
     {
         if (isset($this->answers[$uuid]))
