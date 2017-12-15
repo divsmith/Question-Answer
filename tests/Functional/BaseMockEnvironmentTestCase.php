@@ -8,8 +8,12 @@
 
 namespace Tests\Functional;
 
+use Slim\App;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use Slim\Http\Environment;
 
-class BaseMockEnvironmentTestCase
+class BaseMockEnvironmentTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * Use middleware when running application?
@@ -25,7 +29,7 @@ class BaseMockEnvironmentTestCase
         $settings = require __DIR__ . '/../../src/settings.php';
 
         // Instantiate the application
-        $this->app = new App($settings);
+        $app = new App($settings);
 
         // Set up dependencies
         require __DIR__ . '/../../src/dependencies.php';
@@ -37,6 +41,8 @@ class BaseMockEnvironmentTestCase
 
         // Register routes
         require __DIR__ . '/../../src/routes.php';
+
+        $this->app = $app;
     }
 
     /**
