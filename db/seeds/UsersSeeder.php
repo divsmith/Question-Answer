@@ -36,6 +36,7 @@ class UsersSeeder extends AbstractSeed
             'name'       => 'Anne Anderson',
             'email'      => 'anne@example.com',
             'password'   => password_hash('1234pass', PASSWORD_DEFAULT),
+            'upvoted'    => serialize([1]),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ];
