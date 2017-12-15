@@ -81,3 +81,8 @@ $container[\App\Storage\User\EloquentUserPlugin::class] = function($c)
 {
     return new \App\Storage\User\EloquentUserPlugin($c->get('db')->table('users'));
 };
+
+$container[\App\Storage\Question\EloquentQuestionPlugin::class] = function($c)
+{
+    return new \App\Storage\Question\EloquentQuestionPlugin($c->get('db')->table('users'));
+};

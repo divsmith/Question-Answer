@@ -41,14 +41,25 @@ class Question
         return $this->uuid;
     }
 
-    public function title()
+    public function title($title = null)
     {
-        return $this->title;
+        if ($title == null) {
+            return $this->title;
+        }
+
+        $this->title = $title;
+        return true;
     }
 
-    public function text()
+    public function text($text = null)
     {
-        return $this->text;
+        if ($text == null)
+        {
+            return $this->text;
+        }
+
+        $this->text = $text;
+        return true;
     }
 
     public function userEmail()

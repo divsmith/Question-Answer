@@ -40,9 +40,21 @@ class QuestionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->title, $this->question->title());
     }
 
+    public function testUpdateTitle()
+    {
+        $this->assertTrue($this->question->title('new title'));
+        $this->assertEquals('new title', $this->question->title());
+    }
+
     public function testText()
     {
         $this->assertEquals($this->text, $this->question->text());
+    }
+
+    public function testUpdateText()
+    {
+        $this->assertTrue($this->question->text('new question text'));
+        $this->assertEquals('new question text', $this->question->text());
     }
 
     public function testUserEmail()

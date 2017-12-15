@@ -17,4 +17,6 @@ interface QuestionRepositoryInterface
     public function getAllByUser($email);
     public function getAll();
     public function store(Question $question);
+    public function delete($uuid);
+    public function deleteAll();
 }

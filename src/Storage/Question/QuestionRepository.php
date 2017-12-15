@@ -37,4 +37,14 @@ class QuestionRepository
     {
         return $this->plugin->store($question);
     }
+
+    public function delete($uuid)
+    {
+        return $this->plugin->delete($uuid);
+    }
+
+    public function deleteAll()
+    {
+        return $this->plugin->deleteAll();
+    }
 }
