@@ -22,12 +22,9 @@ class MemoryUserPlugin implements UserRepositoryPluginInterface
 
     public function getByEmail($email)
     {
-        foreach($this->users as $user)
+        if (isset($this->users[$email]))
         {
-            if ($user->email() == $email)
-            {
-                return $user;
-            }
+            return $this->users[$email];
         }
 
         return null;
@@ -35,11 +32,33 @@ class MemoryUserPlugin implements UserRepositoryPluginInterface
 
     public function store(User $user)
     {
-        // TODO: Implement store() method.
+        $this->users[$user->email()] = $user;
+        return true;
     }
 
     public function getAll()
     {
-        // TODO: Implement getAll() method.
+        if (sizeof($this->users) > 0)
+        {
+            return array_values($this->users);
+        }
+
+        return null;
+    }
+
+    public function delete($email)
+    {
+        if (isset($this->users[$email]))
+        {
+            unset($this->users[$email]);
+            return true;
+        }
+
+        return null;
+    }
+
+    public function deleteAll()
+    {
+        $this->users = [];
     }
 }
