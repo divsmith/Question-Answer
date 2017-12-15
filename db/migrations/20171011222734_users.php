@@ -32,6 +32,7 @@ class Users extends AbstractMigration
         $table->addColumn('name' ,'string')
             ->addColumn('email', 'string')
             ->addColumn('password', 'string')
+            ->addColumn('upvoted', 'binary', ['null' => true])
             ->addColumn('created_at', 'datetime')
             ->addColumn('updated_at', 'datetime')
             ->addIndex(['email'], ['unique' => true])

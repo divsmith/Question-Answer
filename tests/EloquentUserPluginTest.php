@@ -20,8 +20,8 @@ class EloquentUserPluginTest extends \PHPUnit_Framework_TestCase
         // Set up dependencies
         require __DIR__ . '/../src/dependencies.php';
 
-        $this->user1 = new \App\Domain\User("anne@example.com", "Anne Example", password_hash('user1 password', PASSWORD_DEFAULT));
-        $this->user2 = new \App\Domain\User("bill@example.com", "Bill Example", password_hash('user2 password', PASSWORD_DEFAULT));
+        $this->user1 = new \App\Domain\User("anne@example.com", "Anne Example", password_hash('user1 password', PASSWORD_DEFAULT), ['1', '4', '7']);
+        $this->user2 = new \App\Domain\User("bill@example.com", "Bill Example", password_hash('user2 password', PASSWORD_DEFAULT), ['3', '7', '9']);
         $this->user3 = new \App\Domain\User("jack@example.com", "Jack Example", password_hash('user3 password', PASSWORD_DEFAULT));
 
         $this->plugin = $app->getContainer()->get(\App\Storage\User\EloquentUserPlugin::class);

@@ -23,7 +23,7 @@ class EloquentUserPlugin implements UserRepositoryPluginInterface
 
     public function store(User $user)
     {
-        $eloquentUser = new \App\Models\User(['name' => $user->name(), 'email' => $user->email(), 'password' => $user->hash()]);
+        $eloquentUser = new \App\Models\User(['name' => $user->name(), 'email' => $user->email(), 'password' => $user->hash(), 'upvoted' => serialize($user->getUpvoted())]);
 
         return $eloquentUser->save();
     }
@@ -39,7 +39,7 @@ class EloquentUserPlugin implements UserRepositoryPluginInterface
             $return = [];
             foreach($eloquentUsers as $eloquentUser)
             {
-                $return[] = new User($eloquentUser['email'], $eloquentUser['name'], $eloquentUser['password']);
+                $return[] = new User($eloquentUser['email'], $eloquentUser['name'], $eloquentUser['password'], unserialize($eloquentUser['upvoted']));
             }
         }
 
@@ -53,7 +53,7 @@ class EloquentUserPlugin implements UserRepositoryPluginInterface
         if ($user)
         {
             $user = $user->toArray();
-            return new User($user['email'], $user['name'], $user['password']);
+            return new User($user['email'], $user['name'], $user['password'], unserialize($user['upvoted']));
         }
 
         return null;
