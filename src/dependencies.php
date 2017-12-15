@@ -76,7 +76,8 @@ $container[App\Actions\ProfileAction::class] = function ($c) {
     return new \App\Actions\ProfileAction($view, $logger, $table);
 };
 
-// custom
+
+// Specific Plugins (must be resolved through IOC container for testing
 $container[\App\Storage\User\EloquentUserPlugin::class] = function($c)
 {
     return new \App\Storage\User\EloquentUserPlugin($c->get('db')->table('users'));
@@ -90,4 +91,48 @@ $container[\App\Storage\Question\EloquentQuestionPlugin::class] = function($c)
 $container[\App\Storage\Answer\EloquentAnswerPlugin::class] = function($c)
 {
     return new \App\Storage\Answer\EloquentAnswerPlugin($c->get('db')->table('answers'));
+};
+
+
+// Plugin Interfaces
+$container[\App\Storage\User\UserRepositoryPluginInterface::class] = function($c)
+{
+    return new \App\Storage\User\EloquentUserPlugin($c->get('db')->table('users'));
+};
+
+$container[\App\Storage\Question\QuestionRepositoryInterface::class] = function($c)
+{
+    return new \App\Storage\Question\EloquentQuestionPlugin($c->get('db')->table('questions'));
+};
+
+$container[\App\Storage\Answer\AnswerRepositoryInterface::class] = function($c)
+{
+    return new \App\Storage\Answer\EloquentAnswerPlugin($c->get('db')->table('answers'));
+};
+
+$container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+{
+    return new \App\Storage\Session\PHPSessionPlugin();
+};
+
+
+// Repositories
+$container[\App\Storage\User\UserRepository::class] = function($c)
+{
+    return new \App\Storage\User\UserRepository($c->get(\App\Storage\User\UserRepositoryPluginInterface::class));
+};
+
+$container[\App\Storage\Question\QuestionRepository::class] = function($c)
+{
+    return new \App\Storage\Question\QuestionRepository($c->get(\App\Storage\Question\QuestionRepositoryInterface::class));
+};
+
+$container[\App\Storage\Answer\AnswerRepository::class] = function($c)
+{
+    return new \App\Storage\Answer\AnswerRepository($c->get(\App\Storage\Answer\AnswerRepositoryInterface::class));
+};
+
+$container[\App\Storage\Session\SessionRepository::class] = function($c)
+{
+    return new \App\Storage\Session\SessionRepository($c->get(\App\Storage\Session\SessionRepositoryPluginInterface::class));
 };
