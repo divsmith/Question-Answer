@@ -37,6 +37,17 @@ class User
         return $this->hash;
     }
 
+    public function upvote($uuid)
+    {
+        if (in_array($uuid, $this->upvoted))
+        {
+            return null;
+        }
+
+        $this->upvoted[] = $uuid;
+        return true;
+    }
+
     public function getUpvoted()
     {
         return $this->upvoted;
