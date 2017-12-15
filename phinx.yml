@@ -16,10 +16,10 @@ environments:
 
     development:
         adapter: mysql
-        host: 165.227.109.168
-        name: web4350
-        user: appuser
-        pass: letmein
+        host: localhost
+        name: final
+        user: root
+        pass: password
         port: 3306
         charset: utf8
 
