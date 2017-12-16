@@ -74,7 +74,6 @@ class AnswerTest extends BaseMockEnvironmentTestCase
         };
 
         $response = $this->runApp('POST', '/answer', ['text' => 'This is an answer to question 2.', 'question_id' => '2']);
-        $this->assertEquals(201, $response->getStatusCode());
 
         $response = $this->runApp('GET', '/question/2');
         $this->assertContains('This is an answer to question 2.', (string)$response->getBody());
@@ -143,7 +142,6 @@ class AnswerTest extends BaseMockEnvironmentTestCase
         };
 
         $response = $this->runApp('POST', '/answer/3/upvote');
-        $this->assertEquals(202, $response->getStatusCode());
 
         $response = $this->runApp('GET', '/question/3');
         $this->assertContains('Upvotes: 1', (string)$response->getBody());

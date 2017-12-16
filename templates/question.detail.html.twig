@@ -8,5 +8,32 @@
     {% for answer in answers %}
     <p>{{ answer.text() }}</p>
     <h4>Answered By: {{ answer.userEmail() }} Upvotes: {{ answer.upvotes() }}</h4>
+        <form role="form" method="POST" action="{{ base_url }}/answer/{{ answer.uuid() }}/upvote">
+            <button type="submit">Upvote</button>
+        </form>
     {% endfor %}
+
+    {% if loggedIn == true %}
+        <h3>Submit Answer</h3>
+        <form role="form" method="POST" action="{{ base_url }}/answer">
+            <table>
+                <tr>
+                    <td>
+                        <label for="text">Answer</label>
+                        <input type="text" id="text" name="text" placeholder="Answer" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="hidden" id="question_id" name="question_id" value="{{ question.uuid() }}" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit">Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    {% endif %}
 {% endblock %}

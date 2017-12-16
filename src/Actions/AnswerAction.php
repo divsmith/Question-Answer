@@ -68,7 +68,7 @@ class AnswerAction
             $this->users->store($user);
 
             $response->getBody()->write('Answer Upvoted');
-            return $response->withStatus(202);
+            return $response->withRedirect('/question/' . $answer->questionID());
         }
 
         $response->getBody()->write('Already upvoted');
@@ -93,7 +93,7 @@ class AnswerAction
         $this->answers->store(new Answer(uniqid(), $question_id, $text, $email));
 
         $response->getBody()->write('Answer posted!');
-        return $response->withStatus(201);
+        return $response->withRedirect('/question/' . $question_id);
     }
 
     public function update(Request $request, Response $response, $args)
