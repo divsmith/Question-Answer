@@ -20,12 +20,13 @@
             <form role="form" method="POST" action="{{ base_url }}/logout">
                 <button type="submit">Logout</button>
             </form>
+            <a href="{{ base_url }}/question/create">Post a Question</a>
         {% else %}
             <a href="/">Login</a>
             <a href="/user/create">Register</a>
         {% endif %}
 
-        <a href="/question">Questions</a>
+        <a href="/question">View All Questions</a>
 
         {% block content %}{% endblock %}
     </body>

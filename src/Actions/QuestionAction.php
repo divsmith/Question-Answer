@@ -86,7 +86,15 @@ class QuestionAction
             $response->getBody()->write("Invalid question");
             return $response->withStatus(400, 'Invalid question ID');
         }
-        return $this->view->render($response, 'question.detail.html.twig', ['question' => $question, 'answers' => $answers, 'loggedIn' => $this->session->get('auth') == true ? true : false]);
+
+        $loggedIn = $this->session->get('auth') == true ? true : false;
+        $user = false;
+
+        if ($loggedIn)
+        {
+            $user = $this->session->get('auth_user');
+        }
+        return $this->view->render($response, 'question.detail.html.twig', ['question' => $question, 'answers' => $answers, 'loggedIn' => $loggedIn, 'user' => $user]);
     }
 
     public function create(Request $request, Response $response)
@@ -103,8 +111,7 @@ class QuestionAction
         if ($question != null && $this->session->get('auth_user') == $question->userEmail())
         {
             $this->questions->delete($uuid);
-            $response->getBody()->write('Question deleted');
-            return $response->withStatus(204);
+            return $response->withRedirect('/question');
         }
 
         $response->getBody()->write('Unauthorized');

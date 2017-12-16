@@ -4,6 +4,12 @@
     <h1>{{ question.title() }}</h1>
     <p>{{ question.text() }}</p>
     <h4>Asked By: {{ question.userEmail() }}</h4>
+    {% if loggedIn == true and user == question.userEmail() %}
+        <form role="form" method="POST" action="{{ base_url }}/question/{{ question.uuid() }}">
+            <input type="hidden" name="_METHOD" value="DELETE"/>
+            <button type="submit">Delete Question</button>
+        </form>
+    {% endif %}
 
     {% for answer in answers %}
     <p>{{ answer.text() }}</p>

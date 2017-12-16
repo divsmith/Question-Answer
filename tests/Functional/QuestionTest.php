@@ -125,7 +125,6 @@ class QuestionTest extends BaseMockEnvironmentTestCase
         };
 
         $response = $this->runApp('DELETE', '/question/1');
-        $this->assertEquals(204, $response->getStatusCode());
 
         $response = $this->runApp('GET', '/question/1');
         $this->assertEquals(400, $response->getStatusCode());
