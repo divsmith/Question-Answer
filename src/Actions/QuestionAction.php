@@ -86,7 +86,7 @@ class QuestionAction
             $response->getBody()->write("Invalid question");
             return $response->withStatus(400, 'Invalid question ID');
         }
-        return $this->view->render($response, 'question.detail.twig.html', ['question' => $question, 'answers' => $answers]);
+        return $this->view->render($response, 'question.detail.html.twig', ['question' => $question, 'answers' => $answers]);
     }
 
     public function create(Request $request, Response $response)
