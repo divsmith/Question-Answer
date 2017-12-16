@@ -41,29 +41,29 @@ $container['db'] = function ($c) {
 
     return $capsule;
 };
+//
+//// error handlers
+//$container['errorHandler'] = function ($c) {
+//    return function ($request, $response, $exception) use ($c) {
+//        $c->get('logger')->error($exception->getMessage());
+//        $response->getBody()->rewind();
+//        return $response->withStatus(500)
+//                        ->withHeader('Content-Type', 'text/html')
+//                        ->write("<hr>Oops, something's gone wrong!<hr>");
+//    };
+//};
+//
+//$container['phpErrorHandler'] = function ($c) {
+//    return function ($request, $response, $exception) use ($c) {
+//        $c->get('logger')->error($exception->getMessage());
+//        $response->getBody()->rewind();
+//        return $response->withStatus(500)
+//                        ->withHeader('Content-Type', 'text/html')
+//                        ->write("Oops, something's gone wrong!");
+//    };
+//};
 
-// error handlers
-$container['errorHandler'] = function ($c) {
-    return function ($request, $response, $exception) use ($c) {
-        $c->get('logger')->error($exception->getMessage());
-        $response->getBody()->rewind();
-        return $response->withStatus(500)
-                        ->withHeader('Content-Type', 'text/html')
-                        ->write("<hr>Oops, something's gone wrong!<hr>");
-    };
-};
-
-$container['phpErrorHandler'] = function ($c) {
-    return function ($request, $response, $exception) use ($c) {
-        $c->get('logger')->error($exception->getMessage());
-        $response->getBody()->rewind();
-        return $response->withStatus(500)
-                        ->withHeader('Content-Type', 'text/html')
-                        ->write("Oops, something's gone wrong!");
-    };
-};
-
-// classes/objects
+// Actions
 $container[App\Actions\HomeAction::class] = function ($c) {
     return new \App\Actions\HomeAction($c->get('view'), $c->get('logger'));
 };
@@ -75,6 +75,15 @@ $container[App\Actions\ProfileAction::class] = function ($c) {
     $session = $c->get(\App\Storage\Session\SessionRepository::class);
 
     return new \App\Actions\ProfileAction($view, $logger, $users, $session);
+};
+
+$container[\App\Actions\UserAction::class] = function($c)
+{
+    $view = $c->get('view');
+    $logger = $c->get('logger');
+    $users = $c->get(\App\Storage\User\UserRepository::class);
+
+    return new \App\Actions\UserAction($view, $logger, $users);
 };
 
 
