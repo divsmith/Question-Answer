@@ -187,10 +187,10 @@ $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = funct
 //    return $plugin;
 //};
 
-$container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
-{
-    return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'anne@example.com']);
-};
+//$container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+//{
+//    return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'anne@example.com']);
+//};
 
 
 // Repositories
