@@ -13,6 +13,7 @@ $app->post('/profile', App\Actions\ProfileAction::class)->setName('profilepage')
 
 
 // User
+$app->get('/user/create', App\Actions\UserAction::class . ':create');
 $app->post('/user', App\Actions\UserAction::class . ':register');
 
 // Question

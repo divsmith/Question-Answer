@@ -29,6 +29,11 @@ class UserAction
         $this->users = $users;
     }
 
+    public function create(Request $request, Response $response)
+    {
+        return $this->view->render($response, 'register.html.twig', ['dump' => $this->users->getAll()]);
+    }
+
     public function register(Request $request, Response $response)
     {
         $this->log->info("User action register action dispatched");
@@ -46,17 +51,17 @@ class UserAction
         $user = $this->users->getByEmail($email);
 
         // No user in the database with this username
-        if (!$user === null) {
-            return $response->getBody()->write("You've already registered!");
-            //return $this->view->render($response, 'register.html.twig', ['already_registered' => true]);
+        if (!$user == null) {
+            //return $response->getBody()->write("You've already registered!");
+            return $this->view->render($response->withStatus(403), 'thankyou.html.twig', ['already_registered' => true]);
         }
 
         $user = new User($email, $name, password_hash($password, PASSWORD_DEFAULT));
 
         if ($this->users->store($user))
         {
-            return $response->getBody()->write("Thank you for registering!");
-            //return $this->view->render($response, 'register.html.twig', ['already_registered' => false]);
+            //return $response->getBody()->write("Thank you for registering!");
+            return $this->view->render($response, 'thankyou.html.twig', ['already_registered' => false]);
         }
 
         return $response->getBody()->write("Something went wrong!");
