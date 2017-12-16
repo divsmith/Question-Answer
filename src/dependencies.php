@@ -106,6 +106,18 @@ $container[\App\Actions\QuestionAction::class] = function($c)
     return new \App\Actions\QuestionAction($view, $logger, $users, $questions, $answers, $session, $router);
 };
 
+$container[\App\Actions\AnswerAction::class] = function($c)
+{
+    $view = $c->get('view');
+    $logger = $c->get('logger');
+    $users = $c->get(\App\Storage\User\UserRepository::class);
+    $answers = $c->get(\App\Storage\Answer\AnswerRepository::class);
+    $questions = $c->get(\App\Storage\Question\QuestionRepository::class);
+    $session = $c->get(\App\Storage\Session\SessionRepository::class);
+
+    return new \App\Actions\AnswerAction($view, $logger, $users, $questions, $answers, $session);
+};
+
 
 // Specific Plugins (must be resolved through IOC container for testing
 $container[\App\Storage\User\EloquentUserPlugin::class] = function($c)

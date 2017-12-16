@@ -36,7 +36,7 @@ $app->get('/question/{question_id}', \App\Actions\QuestionAction::class . ':find
 $app->delete('/question/{question_id}', \App\Actions\QuestionAction::class . ':delete')->add($auth);
 
 // Answer
-$app->post('/question/{question_id}/answer', \App\Actions\AnswerAction::class . ':post');
-$app->post('/question/{question_id}/answer/{answer_id}', \App\Actions\AnswerAction::class . ":update");
-$app->post('/question/{question_id}/answer/{answer_id}/upvote', \App\Actions\AnswerAction::class . ':upvote');
+$app->post('/question/{question_id}/answer', \App\Actions\AnswerAction::class . ':post')->add($auth);
+$app->post('/question/{question_id}/answer/{answer_id}', \App\Actions\AnswerAction::class . ":update")->add($auth);
+$app->post('/question/{question_id}/answer/{answer_id}/upvote', \App\Actions\AnswerAction::class . ':upvote')->add($auth);
 
