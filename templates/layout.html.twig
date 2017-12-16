@@ -16,6 +16,14 @@
         </script>
     </head>
     <body>
+        {% if loggedIn == true %}
+            <form role="form" method="POST" action="{{ base_url }}/logout">
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{{ base_url }}">Login</a>
+        {% endif %}
+
         {% block content %}{% endblock %}
     </body>
 </html>

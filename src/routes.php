@@ -22,6 +22,7 @@ $app->get('/', App\Actions\HomeAction::class)->setName('homepage');
 
 // Post Routes
 $app->post('/profile', App\Actions\SessionAction::class . ':create');
+$app->post('/logout', \App\Actions\SessionAction::class . ':destroy');
 
 
 // User

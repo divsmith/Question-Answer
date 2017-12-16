@@ -26,6 +26,15 @@ class SessionAction
         $this->session = $session;
     }
 
+    public function destroy(Request $request, Response $response, array $args)
+    {
+        $this->session->put('auth', false);
+        $this->session->put('auth_user', null);
+        session_destroy();
+        session_start();
+        return $response->withRedirect('/');
+    }
+
     public function create(Request $request, Response $response, array $args)
     {
         $this->log->info("Profilepage action dispatched");
@@ -43,16 +52,16 @@ class SessionAction
 
         // No user in the database with this username
         if ($user === null) {
-            return $this->view->render($response, 'profile.html.twig', []);
+            return $this->view->render($response, 'profile.html.twig', ['loggedIn' => false]);
         }
 
         // Password check
         if (!$user->password_verify($password)) {
-            return $this->view->render($response, 'profile.html.twig', []);
+            return $this->view->render($response, 'profile.html.twig', ['loggedIn' => false]);
         }
         
         $this->session->put('auth', true);
         $this->session->put('auth_user', $user->email());
-        return $this->view->render($response, 'profile.html.twig', ['name' => $user->name()]);
+        return $this->view->render($response, 'profile.html.twig', ['name' => $user->name(), 'loggedIn' => true]);
     }
 }
