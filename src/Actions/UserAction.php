@@ -61,7 +61,8 @@ class UserAction
         if ($this->users->store($user))
         {
             //return $response->getBody()->write("Thank you for registering!");
-            return $this->view->render($response, 'thankyou.html.twig', ['already_registered' => false]);
+            //return $this->view->render($response, 'thankyou.html.twig', ['already_registered' => false]);
+            return $response->withRedirect('/');
         }
 
         return $response->getBody()->write("Something went wrong!");

@@ -21,7 +21,8 @@
                 <button type="submit">Logout</button>
             </form>
         {% else %}
-            <a href="{{ base_url }}">Login</a>
+            <a href="/">Login</a>
+            <a href="/user/create">Register</a>
         {% endif %}
 
         {% block content %}{% endblock %}

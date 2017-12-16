@@ -69,8 +69,7 @@ class RegisterUserTest extends BaseMockEnvironmentTestCase
     {
         $response = $this->runApp('POST', '/user', ['email' => 'newguy@example.com', 'name' => 'New Guy', 'password' => 'testing password']);
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertContains('Thank you for registering!', (string)$response->getBody());
+        $this->assertEquals(302, $response->getStatusCode());
 
         $response = $this->runApp('POST', '/profile', ['f_username' => 'newguy@example.com', 'f_password' => 'testing password']);
 
