@@ -19,10 +19,10 @@ return [
         // Database settings
         'db' => [
             'driver'    => 'mysql',
-            'host'      => 'localhost',
+            'host'      => '45.55.43.205',
             'database'  => 'final',
-            'username'  => 'root',
-            'password'  => 'password',
+            'username'  => 'finalUser',
+            'password'  => 'final_user_password',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

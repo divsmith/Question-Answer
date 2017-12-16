@@ -16,10 +16,10 @@ environments:
 
     development:
         adapter: mysql
-        host: localhost
+        host: 45.55.43.205
         name: final
-        user: root
-        pass: password
+        user: finalUser
+        pass: final_user_password
         port: 3306
         charset: utf8
 
