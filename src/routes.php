@@ -31,7 +31,7 @@ $app->post('/user', App\Actions\UserAction::class . ':register');
 // Question
 $app->get('/question', \App\Actions\QuestionAction::class . ':home')->setName('question.home');
 $app->post('/question', \App\Actions\QuestionAction::class . ':post')->add($auth);
-$app->get('/question/create', \App\Actions\QuestionAction::class . ':create');
+$app->get('/question/create', \App\Actions\QuestionAction::class . ':create')->add($auth);
 $app->get('/question/{question_id}', \App\Actions\QuestionAction::class . ':find');
 $app->delete('/question/{question_id}', \App\Actions\QuestionAction::class . ':delete');
 
