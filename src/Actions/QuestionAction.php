@@ -12,6 +12,7 @@ namespace App\Actions;
 use App\Domain\User;
 use App\Storage\Answer\AnswerRepository;
 use App\Storage\Question\QuestionRepository;
+use App\Storage\Session\SessionRepository;
 use App\Storage\User\UserRepository;
 use Psr\Log\LoggerInterface;
 use Slim\Http\Request;
@@ -25,6 +26,7 @@ class QuestionAction
     protected $users;
     protected $questions;
     protected $answers;
+    protected $session;
 
     /**
      * QuestionAction constructor.
@@ -33,14 +35,18 @@ class QuestionAction
      * @param UserRepository $users
      * @param QuestionRepository $questions
      * @param AnswerRepository $answers
+     * @param SessionRepository $session
      */
-    public function __construct(Twig $view, LoggerInterface $logger, UserRepository $users, QuestionRepository $questions, AnswerRepository $answers)
+    public function __construct(Twig $view, LoggerInterface $logger, UserRepository $users,
+                                QuestionRepository $questions, AnswerRepository $answers,
+                                SessionRepository $session)
     {
         $this->view = $view;
         $this->log = $logger;
         $this->users = $users;
         $this->questions = $questions;
         $this->answers = $answers;
+        $this->session = $session;
     }
 
     public function home(Request $request, Response $response)
@@ -52,7 +58,12 @@ class QuestionAction
 
     public function post(Request $request, Response $response)
     {
+        $args = $request->getParsedBody();
 
+        $title = $args['title'];
+        $text = $args['text'];
+
+        
     }
 
     public function find(Request $request, Response $response)
