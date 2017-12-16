@@ -19,21 +19,30 @@ class AnswersSeeder extends AbstractSeed
             'uuid' => '1',
             'question_uuid' => '1',
             'text' => 'You use eloquent like this...',
-            'userEmail' => 'chris@example.com',
-            'upvotes' => 1
+            'user_email' => 'chris@example.com',
+            'upvotes' => 1,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
         ];
         $data[] = [
             'uuid' => '2',
             'question_uuid' => '1',
             'text' => 'You  can also use eloquent like this...',
-            'userEmail' => 'ben@example.com'
+            'user_email' => 'ben@example.com',
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
         ];
         $data[] = [
             'uuid' => '3',
             'question_uuid' => '3',
             'text' => 'You use phinx like this....',
-            'userEmail' => 'anne@example.com',
-            'upvotes' => 1
+            'user_email' => 'anne@example.com',
+            'upvotes' => 1,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
         ];
+
+        $answers = $this->table('answers');
+        $answers->insert($data)->save();
     }
 }

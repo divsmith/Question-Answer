@@ -74,9 +74,18 @@ class QuestionAction
         return $response->withRedirect($uri, 201);
     }
 
-    public function find(Request $request, Response $response)
+    public function find(Request $request, Response $response, $args)
     {
+        $uuid = $args['question_id'];
 
+        $question = $this->questions->getByID($uuid);
+        $answers = $this->answers->getByQuestionID($uuid);
+
+        if ($question == null)
+        {
+            return $response->withStatus(400, 'Invalid question ID');
+        }
+        return $this->view->render($response, 'question.detail.twig.html', ['question' => $question, 'answers' => $answers]);
     }
 
     public function create(Request $request, Response $response)

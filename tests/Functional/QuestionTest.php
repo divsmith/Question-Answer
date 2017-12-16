@@ -33,7 +33,7 @@ class QuestionTest extends BaseMockEnvironmentTestCase
 
         $container[\App\Storage\Question\QuestionRepositoryInterface::class] = function($c)
         {
-            $question1 = new Question('1', 'Question about Eloquent', 'I have a quesiton about how to use eloquent', 'anne@example.com');
+            $question1 = new Question('1', 'Question about Eloquent', 'I have a question about how to use eloquent', 'anne@example.com');
             $question2 = new Question('2', 'another Question about Eloquent', 'I have a another quesiton about how to use eloquent', 'anne@example.com');
             $question3 = new Question('3', 'Question about Phinx', 'I have a quesiton about how to use Phinx', 'ben@example.com');
 
@@ -47,7 +47,7 @@ class QuestionTest extends BaseMockEnvironmentTestCase
 
         $container[\App\Storage\Answer\AnswerRepositoryInterface::class] = function($c)
         {
-            $answer1 = new Answer('1', '1', 'You use eloquent like this...', 'christ@example.com', 1);
+            $answer1 = new Answer('1', '1', 'You use eloquent like this...', 'chris@example.com', 1);
             $answer2 = new Answer('2', '1', 'You can also use eloquent like this...', 'ben@example.com');
             $answer3 = new Answer('3', '3', 'You use phinx like this...', 'anne@example.com');
 
@@ -98,4 +98,18 @@ class QuestionTest extends BaseMockEnvironmentTestCase
         $this->assertContains('Testing Question title', (string)$response->getBody());
         $this->assertContains('newguy@example.com', (string)$response->getBody());
     }
+
+    public function testQuestionDetailLoggedIn()
+    {
+        $response = $this->runApp('GET', '/question/1');
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertContains('You use eloquent like this...', (string)$response->getBody());
+        $this->assertContains('chris@example.com', (string)$response->getBody());
+        $this->assertContains('Upvotes: 1', (string)$response->getBody());
+        $this->assertContains('You can also use eloquent like this...', (string)$response->getBody());
+        $this->assertContains('ben@example.com', (string)$response->getBody());
+    }
+
+
 }

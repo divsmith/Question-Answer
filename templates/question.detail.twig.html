@@ -1,0 +1,8 @@
+<h1>{{ question.title() }}</h1>
+<p>{{ question.text() }}</p>
+<h4>Asked By: {{ question.userEmail() }}</h4>
+
+{% for answer in answers %}
+<p>{{ answer.text() }}</p>
+<h4>Answered By: {{ answer.userEmail() }} Upvotes: {{ answer.upvotes() }}</h4>
+{% endfor %}
