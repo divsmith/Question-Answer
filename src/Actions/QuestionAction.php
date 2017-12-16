@@ -58,7 +58,7 @@ class QuestionAction
     {
         $questions = $this->questions->getAll();
 
-        return $this->view->render($response, 'questions.home.html.twig', ['questions' => $questions]);
+        return $this->view->render($response, 'questions.home.html.twig', ['questions' => $questions, 'loggedIn' => $this->session->get('auth') == true ? true : false]);
     }
 
     public function post(Request $request, Response $response)
@@ -69,9 +69,9 @@ class QuestionAction
         $text = $args['text'];
         $email = $this->session->get('auth_user');
 
-        $this->questions->store(new Question(uniqid(), $title, $text, $email));
-        $response->getBody()->write('Question posted!');
-        return $response->withStatus(201);
+        $question = new Question(uniqid(), $title, $text, $email);
+        $this->questions->store($question);
+        return $response->withRedirect('/question/' . $question->uuid());
     }
 
     public function find(Request $request, Response $response, $args)
@@ -86,12 +86,12 @@ class QuestionAction
             $response->getBody()->write("Invalid question");
             return $response->withStatus(400, 'Invalid question ID');
         }
-        return $this->view->render($response, 'question.detail.html.twig', ['question' => $question, 'answers' => $answers]);
+        return $this->view->render($response, 'question.detail.html.twig', ['question' => $question, 'answers' => $answers, 'loggedIn' => $this->session->get('auth') == true ? true : false]);
     }
 
     public function create(Request $request, Response $response)
     {
-        return $this->view->render($response, 'question.form.html.twig');
+        return $this->view->render($response, 'question.form.html.twig', ['loggedIn' => $this->session->get('auth') == true ? true : false]);
     }
 
     public function delete(Request $request, Response $response, $args)

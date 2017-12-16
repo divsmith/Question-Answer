@@ -1,5 +1,9 @@
-<h1>All Questions</h1>
-{% for question in questions %}
-    <a href="/question/{{ question.uuid() }}"><h3>{{ question.title() }}</h3></a>
-    <p>Asked By: {{ question.userEmail() }}</p>
-{% endfor %}
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <h1>All Questions</h1>
+    {% for question in questions %}
+        <a href="/question/{{ question.uuid() }}"><h3>{{ question.title() }}</h3></a>
+        <p>Asked By: {{ question.userEmail() }}</p>
+    {% endfor %}
+{% endblock %}

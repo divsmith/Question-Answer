@@ -92,8 +92,6 @@ class QuestionTest extends BaseMockEnvironmentTestCase
 
         $response = $this->runApp('POST', '/question', ['title' => 'Testing Question title', 'text' => 'this is the text']);
 
-        $this->assertEquals(201, $response->getStatusCode());
-
         $response = $this->runApp('GET', '/question');
         $this->assertContains('Testing Question title', (string)$response->getBody());
         $this->assertContains('newguy@example.com', (string)$response->getBody());
