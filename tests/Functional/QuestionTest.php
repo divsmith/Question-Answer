@@ -99,7 +99,7 @@ class QuestionTest extends BaseMockEnvironmentTestCase
         $this->assertContains('newguy@example.com', (string)$response->getBody());
     }
 
-    public function testQuestionDetailLoggedIn()
+    public function testQuestionDetail()
     {
         $response = $this->runApp('GET', '/question/1');
 
@@ -111,5 +111,43 @@ class QuestionTest extends BaseMockEnvironmentTestCase
         $this->assertContains('ben@example.com', (string)$response->getBody());
     }
 
+    public function testGetDetailInvalid()
+    {
+        $response = $this->runApp('GET', '/question/1234');
 
+        $this->assertEquals(400, $response->getStatusCode());
+    }
+
+    public function testDeleteQuestion()
+    {
+        $container = $this->app->getContainer();
+        $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+        {
+            return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'anne@example.com']);
+        };
+
+        $response = $this->runApp('DELETE', '/question/1');
+        $this->assertEquals(204, $response->getStatusCode());
+
+        $response = $this->runApp('GET', '/question/1');
+        $this->assertEquals(400, $response->getStatusCode());
+    }
+
+    public function testDeleteQuestionNotOwner()
+    {
+        $container = $this->app->getContainer();
+        $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+        {
+            return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'bob@example.com']);
+        };
+
+        $response = $this->runApp('DELETE', '/question/1');
+        $this->assertEquals(401, $response->getStatusCode());
+    }
+
+    public function testDeleteQuestionLoggedOut()
+    {
+        $response = $this->runApp('DELETE', '/question/1');
+        $this->assertEquals(401, $response->getStatusCode());
+    }
 }

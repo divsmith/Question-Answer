@@ -33,7 +33,7 @@ $app->get('/question', \App\Actions\QuestionAction::class . ':home')->setName('q
 $app->post('/question', \App\Actions\QuestionAction::class . ':post')->add($auth);
 $app->get('/question/create', \App\Actions\QuestionAction::class . ':create')->add($auth);
 $app->get('/question/{question_id}', \App\Actions\QuestionAction::class . ':find');
-$app->delete('/question/{question_id}', \App\Actions\QuestionAction::class . ':delete');
+$app->delete('/question/{question_id}', \App\Actions\QuestionAction::class . ':delete')->add($auth);
 
 // Answer
 $app->post('/question/{question_id}/answer', \App\Actions\AnswerAction::class . ':post');

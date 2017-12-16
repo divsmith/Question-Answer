@@ -70,8 +70,8 @@ class QuestionAction
         $email = $this->session->get('auth_user');
 
         $this->questions->store(new Question(uniqid(), $title, $text, $email));
-        $uri = $request->getUri()->withPath($this->router->pathFor('question.home'));
-        return $response->withRedirect($uri, 201);
+        $response->getBody()->write('Question posted!');
+        return $response->withStatus(201);
     }
 
     public function find(Request $request, Response $response, $args)
@@ -83,6 +83,7 @@ class QuestionAction
 
         if ($question == null)
         {
+            $response->getBody()->write("Invalid question");
             return $response->withStatus(400, 'Invalid question ID');
         }
         return $this->view->render($response, 'question.detail.twig.html', ['question' => $question, 'answers' => $answers]);
@@ -93,8 +94,20 @@ class QuestionAction
         return $this->view->render($response, 'question.form.html.twig');
     }
 
-    public function delete(Request $request, Response $response)
+    public function delete(Request $request, Response $response, $args)
     {
+        $uuid = $args['question_id'];
 
+        $question = $this->questions->getByID($uuid);
+
+        if ($question != null && $this->session->get('auth_user') == $question->userEmail())
+        {
+            $this->questions->delete($uuid);
+            $response->getBody()->write('Question deleted');
+            return $response->withStatus(204);
+        }
+
+        $response->getBody()->write('Unauthorized');
+        return $response->withStatus(401);
     }
 }
