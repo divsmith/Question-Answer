@@ -75,13 +75,13 @@ $container[App\Actions\HomeAction::class] = function ($c) {
     return new \App\Actions\HomeAction($c->get('view'), $c->get('logger'));
 };
 
-$container[App\Actions\ProfileAction::class] = function ($c) {
+$container[App\Actions\SessionAction::class] = function ($c) {
     $view = $c->get('view');
     $logger = $c->get('logger');
     $users = $c->get(\App\Storage\User\UserRepository::class);
     $session = $c->get(\App\Storage\Session\SessionRepository::class);
 
-    return new \App\Actions\ProfileAction($view, $logger, $users, $session);
+    return new \App\Actions\SessionAction($view, $logger, $users, $session);
 };
 
 $container[\App\Actions\UserAction::class] = function($c)

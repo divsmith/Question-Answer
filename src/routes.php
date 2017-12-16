@@ -21,7 +21,7 @@ $auth = function($request, $response, $next) use ($app)
 $app->get('/', App\Actions\HomeAction::class)->setName('homepage');
 
 // Post Routes
-$app->post('/profile', App\Actions\ProfileAction::class)->setName('profilepage');
+$app->post('/profile', App\Actions\SessionAction::class . ':create');
 
 
 // User

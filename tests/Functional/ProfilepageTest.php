@@ -76,7 +76,6 @@ class ProfilepageTest extends BaseMockEnvironmentTestCase
     public function testPostLoginpageSuccess00()
     {
         $response = $this->runApp('POST', '/profile', ['f_username' => 'anne@example.com', 'f_password' => '1234pass']);
-
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertContains('Member', (string)$response->getBody());
         $this->assertContains('Hello, Anne Anderson!', (string)$response->getBody());

@@ -11,7 +11,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Views\Twig;
 
-class ProfileAction
+class SessionAction
 {
     protected $view;
     protected $log;
@@ -26,7 +26,7 @@ class ProfileAction
         $this->session = $session;
     }
 
-    public function __invoke(Request $request, Response $response, array $args)
+    public function create(Request $request, Response $response, array $args)
     {
         $this->log->info("Profilepage action dispatched");
 
