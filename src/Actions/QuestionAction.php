@@ -9,6 +9,7 @@
 namespace App\Actions;
 
 
+use App\Domain\Question;
 use App\Domain\User;
 use App\Storage\Answer\AnswerRepository;
 use App\Storage\Question\QuestionRepository;
@@ -62,8 +63,10 @@ class QuestionAction
 
         $title = $args['title'];
         $text = $args['text'];
+        $email = $this->session->get('auth_user');
 
-        
+        $this->questions->store(new Question(uniqid(), $title, $text, $email));
+        return $response->withStatus(201);
     }
 
     public function find(Request $request, Response $response)

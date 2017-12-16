@@ -9,6 +9,8 @@
 namespace App\Storage\Question;
 
 
+use App\Domain\Question;
+
 class QuestionRepository
 {
     private $plugin;

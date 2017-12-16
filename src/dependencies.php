@@ -100,8 +100,9 @@ $container[\App\Actions\QuestionAction::class] = function($c)
     $users = $c->get(\App\Storage\User\UserRepository::class);
     $answers = $c->get(\App\Storage\Answer\AnswerRepository::class);
     $questions = $c->get(\App\Storage\Question\QuestionRepository::class);
+    $session = $c->get(\App\Storage\Session\SessionRepository::class);
 
-    return new \App\Actions\QuestionAction($view, $logger, $users, $questions, $answers);
+    return new \App\Actions\QuestionAction($view, $logger, $users, $questions, $answers, $session);
 };
 
 
@@ -187,7 +188,7 @@ $container[\App\Storage\Answer\AnswerRepositoryInterface::class] = function($c)
 
 $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
 {
-    return new \App\Storage\Session\PHPSessionPlugin();
+    return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'anne@example.com']);
 };
 
 

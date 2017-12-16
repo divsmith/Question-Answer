@@ -5,6 +5,18 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+$auth = function($request, $response, $next) use ($app)
+{
+    $session = $app->getContainer()->get(\App\Storage\Session\SessionRepository::class);
+    if ($session->has('auth') && $session->get('auth') == true)
+    {
+        $response = $next($request, $response);
+        return $response;
+    }
+
+    return $response->withStatus(401, 'Authentication required');
+};
+
 // Get Routes
 $app->get('/', App\Actions\HomeAction::class)->setName('homepage');
 
@@ -18,7 +30,7 @@ $app->post('/user', App\Actions\UserAction::class . ':register');
 
 // Question
 $app->get('/question', \App\Actions\QuestionAction::class . ':home');
-$app->post('/question', \App\Actions\QuestionAction::class . ':post');
+$app->post('/question', \App\Actions\QuestionAction::class . ':post')->add($auth);
 $app->get('/question/create', \App\Actions\QuestionAction::class . ':create');
 $app->get('/question/{question_id}', \App\Actions\QuestionAction::class . ':find');
 $app->delete('/question/{question_id}', \App\Actions\QuestionAction::class . ':delete');

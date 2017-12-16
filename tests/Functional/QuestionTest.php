@@ -61,7 +61,7 @@ class QuestionTest extends BaseMockEnvironmentTestCase
 
         $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
         {
-            return new \App\Storage\Session\PHPSessionPlugin();
+            return new \App\Storage\Session\MemorySessionPlugin();
         };
     }
 
@@ -75,12 +75,27 @@ class QuestionTest extends BaseMockEnvironmentTestCase
         $this->assertContains('Question about Phinx', (string)$response->getBody());
     }
 
-//    public function testPostLoginpageSuccess00()
-//    {
-//        $response = $this->runApp('POST', '/profile', ['f_username' => 'anne@example.com', 'f_password' => '1234pass']);
-//
-//        $this->assertEquals(200, $response->getStatusCode());
-//        $this->assertContains('Member', (string)$response->getBody());
-//        $this->assertContains('Hello, Anne Anderson!', (string)$response->getBody());
-//    }
+    public function testPostNewQuestionNotLoggedIn()
+    {
+        $response = $this->runApp('POST', '/question', ['title' => 'Testing Question title', 'text' => 'this is the text']);
+
+        $this->assertEquals(401, $response->getStatusCode());
+    }
+
+    public function testPostNewQuestionLoggedIn()
+    {
+        $container = $this->app->getContainer();
+        $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+        {
+            return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'newguy@example.com']);
+        };
+
+        $response = $this->runApp('POST', '/question', ['title' => 'Testing Question title', 'text' => 'this is the text']);
+
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $response = $this->runApp('GET', '/question');
+        $this->assertContains('Testing Question title', (string)$response->getBody());
+        $this->assertContains('newguy@example.com', (string)$response->getBody());
+    }
 }
