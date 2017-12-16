@@ -18,6 +18,7 @@ use App\Storage\User\UserRepository;
 use Psr\Log\LoggerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Router;
 use Slim\Views\Twig;
 
 class QuestionAction
@@ -28,6 +29,7 @@ class QuestionAction
     protected $questions;
     protected $answers;
     protected $session;
+    protected $router;
 
     /**
      * QuestionAction constructor.
@@ -37,10 +39,11 @@ class QuestionAction
      * @param QuestionRepository $questions
      * @param AnswerRepository $answers
      * @param SessionRepository $session
+     * @param Router $router
      */
     public function __construct(Twig $view, LoggerInterface $logger, UserRepository $users,
                                 QuestionRepository $questions, AnswerRepository $answers,
-                                SessionRepository $session)
+                                SessionRepository $session, Router $router)
     {
         $this->view = $view;
         $this->log = $logger;
@@ -48,6 +51,7 @@ class QuestionAction
         $this->questions = $questions;
         $this->answers = $answers;
         $this->session = $session;
+        $this->router = $router;
     }
 
     public function home(Request $request, Response $response)
@@ -66,7 +70,8 @@ class QuestionAction
         $email = $this->session->get('auth_user');
 
         $this->questions->store(new Question(uniqid(), $title, $text, $email));
-        return $response->withStatus(201);
+        $uri = $request->getUri()->withPath($this->router->pathFor('question.home'));
+        return $response->withRedirect($uri, 201);
     }
 
     public function find(Request $request, Response $response)
@@ -76,7 +81,7 @@ class QuestionAction
 
     public function create(Request $request, Response $response)
     {
-
+        return $this->view->render($response, 'question.form.html.twig');
     }
 
     public function delete(Request $request, Response $response)

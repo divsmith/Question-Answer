@@ -101,8 +101,9 @@ $container[\App\Actions\QuestionAction::class] = function($c)
     $answers = $c->get(\App\Storage\Answer\AnswerRepository::class);
     $questions = $c->get(\App\Storage\Question\QuestionRepository::class);
     $session = $c->get(\App\Storage\Session\SessionRepository::class);
+    $router = $c->get('router');
 
-    return new \App\Actions\QuestionAction($view, $logger, $users, $questions, $answers, $session);
+    return new \App\Actions\QuestionAction($view, $logger, $users, $questions, $answers, $session, $router);
 };
 
 
@@ -124,67 +125,67 @@ $container[\App\Storage\Answer\EloquentAnswerPlugin::class] = function($c)
 
 
 // Plugin Interfaces
-//$container[\App\Storage\User\UserRepositoryPluginInterface::class] = function($c)
-//{
-//    return new \App\Storage\User\EloquentUserPlugin($c->get('db')->table('users'));
-//};
-//
-//$container[\App\Storage\Question\QuestionRepositoryInterface::class] = function($c)
-//{
-//    return new \App\Storage\Question\EloquentQuestionPlugin($c->get('db')->table('questions'));
-//};
-//
-//$container[\App\Storage\Answer\AnswerRepositoryInterface::class] = function($c)
-//{
-//    return new \App\Storage\Answer\EloquentAnswerPlugin($c->get('db')->table('answers'));
-//};
-//
-//$container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
-//{
-//    return new \App\Storage\Session\PHPSessionPlugin();
-//};
-
 $container[\App\Storage\User\UserRepositoryPluginInterface::class] = function($c)
 {
-    $user1 = new User('anne@example.com', 'Anne Anderson', password_hash('1234pass', PASSWORD_DEFAULT), [1]);
-    $user2 = new User('ben@example.com', 'Ben Bennett', password_hash('1234pass', PASSWORD_DEFAULT));
-    $user3 = new User('chris@example.com', 'Chris Christensen', password_hash('1234pass', PASSWORD_DEFAULT));
-
-    $plugin = new MemoryUserPlugin();
-    $plugin->store($user1);
-    $plugin->store($user2);
-    $plugin->store($user3);
-
-    return $plugin;
+    return new \App\Storage\User\EloquentUserPlugin($c->get('db')->table('users'));
 };
 
 $container[\App\Storage\Question\QuestionRepositoryInterface::class] = function($c)
 {
-    $question1 = new Question('1', 'Question about Eloquent', 'I have a quesiton about how to use eloquent', 'anne@example.com');
-    $question2 = new Question('2', 'another Question about Eloquent', 'I have a another quesiton about how to use eloquent', 'anne@example.com');
-    $question3 = new Question('3', 'Question about Phinx', 'I have a quesiton about how to use Phinx', 'ben@example.com');
-
-    $plugin = new MemoryQuestionPlugin();
-    $plugin->store($question1);
-    $plugin->store($question2);
-    $plugin->store($question3);
-
-    return $plugin;
+    return new \App\Storage\Question\EloquentQuestionPlugin($c->get('db')->table('questions'));
 };
 
 $container[\App\Storage\Answer\AnswerRepositoryInterface::class] = function($c)
 {
-    $answer1 = new Answer('1', '1', 'You use eloquent like this...', 'christ@example.com', 1);
-    $answer2 = new Answer('2', '1', 'You can also use eloquent like this...', 'ben@example.com');
-    $answer3 = new Answer('3', '3', 'You use phinx like this...', 'anne@example.com');
-
-    $plugin = new MemoryAnswerPlugin();
-    $plugin->store($answer1);
-    $plugin->store($answer2);
-    $plugin->store($answer3);
-
-    return $plugin;
+    return new \App\Storage\Answer\EloquentAnswerPlugin($c->get('db')->table('answers'));
 };
+
+$container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+{
+    return new \App\Storage\Session\PHPSessionPlugin();
+};
+
+//$container[\App\Storage\User\UserRepositoryPluginInterface::class] = function($c)
+//{
+//    $user1 = new User('anne@example.com', 'Anne Anderson', password_hash('1234pass', PASSWORD_DEFAULT), [1]);
+//    $user2 = new User('ben@example.com', 'Ben Bennett', password_hash('1234pass', PASSWORD_DEFAULT));
+//    $user3 = new User('chris@example.com', 'Chris Christensen', password_hash('1234pass', PASSWORD_DEFAULT));
+//
+//    $plugin = new MemoryUserPlugin();
+//    $plugin->store($user1);
+//    $plugin->store($user2);
+//    $plugin->store($user3);
+//
+//    return $plugin;
+//};
+//
+//$container[\App\Storage\Question\QuestionRepositoryInterface::class] = function($c)
+//{
+//    $question1 = new Question('1', 'Question about Eloquent', 'I have a quesiton about how to use eloquent', 'anne@example.com');
+//    $question2 = new Question('2', 'another Question about Eloquent', 'I have a another quesiton about how to use eloquent', 'anne@example.com');
+//    $question3 = new Question('3', 'Question about Phinx', 'I have a quesiton about how to use Phinx', 'ben@example.com');
+//
+//    $plugin = new MemoryQuestionPlugin();
+//    $plugin->store($question1);
+//    $plugin->store($question2);
+//    $plugin->store($question3);
+//
+//    return $plugin;
+//};
+//
+//$container[\App\Storage\Answer\AnswerRepositoryInterface::class] = function($c)
+//{
+//    $answer1 = new Answer('1', '1', 'You use eloquent like this...', 'christ@example.com', 1);
+//    $answer2 = new Answer('2', '1', 'You can also use eloquent like this...', 'ben@example.com');
+//    $answer3 = new Answer('3', '3', 'You use phinx like this...', 'anne@example.com');
+//
+//    $plugin = new MemoryAnswerPlugin();
+//    $plugin->store($answer1);
+//    $plugin->store($answer2);
+//    $plugin->store($answer3);
+//
+//    return $plugin;
+//};
 
 $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
 {
