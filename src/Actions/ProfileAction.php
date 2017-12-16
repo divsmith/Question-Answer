@@ -50,8 +50,7 @@ class ProfileAction
         if (!$user->password_verify($password)) {
             return $this->view->render($response, 'profile.html.twig', []);
         }
-
-        session_start();
+        
         $this->session->put('auth', true);
         $this->session->put('auth_user', $user->email());
         return $this->view->render($response, 'profile.html.twig', ['name' => $user->name()]);
