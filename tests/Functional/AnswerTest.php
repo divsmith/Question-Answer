@@ -65,20 +65,99 @@ class AnswerTest extends BaseMockEnvironmentTestCase
         };
     }
 
-//    public function testPostAnswerLoggedIn()
-//    {
-//        $container = $this->app->getContainer();
-//        $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
-//        {
-//            return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'anne@example.com']);
-//        };
-//
-//        $response = $this->runApp('POST', '/question/2', ['text' => 'This is an answer to question 2.']);
-//
-//        $this->assertEquals(201, $response->getStatusCode());
-//
-//        $response = $this->runApp('GET', '/question/2');
-//        $this->assertContains('This is an answer to question 2.', (string)$response->getBody());
-//        $this->assertContains('anne@example.com', (string)$response->getBody());
-//    }
+    public function testPostAnswerLoggedIn()
+    {
+        $container = $this->app->getContainer();
+        $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+        {
+            return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'anne@example.com']);
+        };
+
+        $response = $this->runApp('POST', '/answer', ['text' => 'This is an answer to question 2.', 'question_id' => '2']);
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $response = $this->runApp('GET', '/question/2');
+        $this->assertContains('This is an answer to question 2.', (string)$response->getBody());
+        $this->assertContains('anne@example.com', (string)$response->getBody());
+    }
+
+    public function testPostAnswerInvalidQuestion()
+    {
+        $container = $this->app->getContainer();
+        $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+        {
+            return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'anne@example.com']);
+        };
+
+        $response = $this->runApp('POST', '/answer', ['text' => 'This is an answer to an invalid question', 'question_id' => '1234']);
+        $this->assertEquals(404, $response->getStatusCode());
+    }
+
+    public function testPostAnswerNotLoggedIn()
+    {
+        $response = $this->runApp('POST', '/answer', ['text' => 'This is an answer to question 2.', 'question_id' => '2']);
+        $this->assertEquals(401, $response->getStatusCode());
+    }
+
+    public function testUpdateAnswer()
+    {
+        $container = $this->app->getContainer();
+        $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+        {
+            return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'anne@example.com']);
+        };
+
+        $response = $this->runApp('POST', '/answer/3', ['text' => 'This is a different answer to question 3.']);
+        $this->assertEquals(202, $response->getStatusCode());
+
+        $response = $this->runApp('GET', '/question/3');
+        $this->assertContains('This is a different answer to question 3.', (string)$response->getBody());
+        $this->assertNotContains('You use phinx like this...', (string)$response->getBody());
+    }
+
+    public function testUpvoteNotLoggedIn()
+    {
+        $response = $this->runApp('POST', '/answer/1/upvote');
+        $this->assertEquals(401, $response->getStatusCode());
+    }
+
+    public function testUpvoteAlreadyUpvoted()
+    {
+        $container = $this->app->getContainer();
+        $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+        {
+            return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'anne@example.com']);
+        };
+
+        $response = $this->runApp('POST', '/answer/1/upvote');
+        $this->assertEquals(401, $response->getStatusCode());
+        $this->assertContains('Already upvoted', (string)$response->getBody());
+    }
+
+    public function testUpvote()
+    {
+        $container = $this->app->getContainer();
+        $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+        {
+            return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'chris@example.com']);
+        };
+
+        $response = $this->runApp('POST', '/answer/3/upvote');
+        $this->assertEquals(202, $response->getStatusCode());
+
+        $response = $this->runApp('GET', '/question/3');
+        $this->assertContains('Upvotes: 1', (string)$response->getBody());
+    }
+
+    public function testUpvoteInvalidAnswer()
+    {
+        $container = $this->app->getContainer();
+        $container[\App\Storage\Session\SessionRepositoryPluginInterface::class] = function($c)
+        {
+            return new \App\Storage\Session\MemorySessionPlugin(['auth' => true, 'auth_user' => 'chris@example.com']);
+        };
+
+        $response = $this->runApp('POST', '/answer/37/upvote');
+        $this->assertEquals(404, $response->getStatusCode());
+    }
 }
