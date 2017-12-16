@@ -54,6 +54,13 @@ class UsersSeeder extends AbstractSeed
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ];
+        $data[] = [
+            'name'       => 'Parker',
+            'email'      => 'parker@testing.com',
+            'password'   => password_hash('testing', PASSWORD_DEFAULT),
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
+        ];
 
         $users = $this->table('users');
         $users->insert($data)->save();
