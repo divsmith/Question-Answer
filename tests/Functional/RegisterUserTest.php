@@ -47,9 +47,9 @@ class RegisterUserTest extends BaseMockEnvironmentTestCase
 
         $container[\App\Storage\Answer\AnswerRepositoryInterface::class] = function($c)
         {
-            $answer1 = new Answer(1, 1, 'You use eloquent like this...', 'christ@example.com', 1);
-            $answer2 = new Answer(2, 1, 'You can also use eloquent like this...', 'ben@example.com');
-            $answer3 = new Answer(3, 3, 'You use phinx like this...', 'anne@example.com');
+            $answer1 = new Answer('1', '1', 'You use eloquent like this...', 'christ@example.com', 1);
+            $answer2 = new Answer('2', '1', 'You can also use eloquent like this...', 'ben@example.com');
+            $answer3 = new Answer('3', '3', 'You use phinx like this...', 'anne@example.com');
 
             $plugin = new MemoryAnswerPlugin();
             $plugin->store($answer1);

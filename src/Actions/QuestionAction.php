@@ -10,6 +10,8 @@ namespace App\Actions;
 
 
 use App\Domain\User;
+use App\Storage\Answer\AnswerRepository;
+use App\Storage\Question\QuestionRepository;
 use App\Storage\User\UserRepository;
 use Psr\Log\LoggerInterface;
 use Slim\Http\Request;
@@ -22,18 +24,30 @@ class QuestionAction
     protected $log;
     protected $users;
     protected $questions;
+    protected $answers;
 
-    public function __construct(Twig $view, LoggerInterface $logger, UserRepository $users, QuestionRepository $questions)
+    /**
+     * QuestionAction constructor.
+     * @param Twig $view
+     * @param LoggerInterface $logger
+     * @param UserRepository $users
+     * @param QuestionRepository $questions
+     * @param AnswerRepository $answers
+     */
+    public function __construct(Twig $view, LoggerInterface $logger, UserRepository $users, QuestionRepository $questions, AnswerRepository $answers)
     {
         $this->view = $view;
         $this->log = $logger;
         $this->users = $users;
         $this->questions = $questions;
+        $this->answers = $answers;
     }
 
     public function home(Request $request, Response $response)
     {
         $questions = $this->questions->getAll();
+
+        return $this->view->render($response, 'questions.home.html.twig', ['questions' => $questions]);
     }
 
     public function post(Request $request, Response $response)
